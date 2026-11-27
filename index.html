@@ -156,23 +156,318 @@ html.st-dark img,html.st-dark video,html.st-dark iframe,html.st-dark canvas{filt
 <main>
 <h1 class="st-h">나의 웹사이트</h1>
 
-<a class="st-btn" href="write.html">작성</a>
-<a class="st-btn" href="record.html">가계부</a>
-<section class="st-sec st-faq">
-  <h2 class="st-h">자주 묻는 질문</h2>
-  <details class="st-acc">
-    <summary>첫 번째 질문을 써요</summary>
-    <p class="st-p">답을 써요.</p>
-  </details>
-  <details class="st-acc">
-    <summary>두 번째 질문을 써요</summary>
-    <p class="st-p">답을 써요.</p>
-  </details>
-  <details class="st-acc">
-    <summary>세 번째 질문을 써요</summary>
-    <p class="st-p">답을 써요.</p>
-  </details>
-</section>
 
 </main>
+
+<div class="st-dset">
+  <form class="st-sec st-dform" data-st="dform" data-tab="기록장" data-api="https://script.google.com/macros/s/AKfycbwEf1yXGXTCq4M6qXz9BWblotewuIC2koAFl9zcPCNGpwQzHCHpF60Yn0FDmqvD8PkdBQ/exec">
+    <h2 class="st-h">오늘의 실험 기록</h2>
+    <div class="st-pop">
+      <div class="st-row">
+        <a class="st-btn" href="list.html">실험 목록</a>
+        <button class="st-btn" type="button" data-st-open="st-m54kw">자세히 보기</button>
+      </div>
+      <dialog class="st-modal" id="st-m54kw">
+        <h3 class="st-h">오늘의 실험 기록이란?</h3>
+        <p class="st-p">실험 날짜와 성공 여부 등을 기록할 수 있어요.<br>옆의 실험 목록 버튼을 눌러 기록을 확인할 수 있어요.</p>
+        <button class="st-btn" type="button" data-st-close="">닫기</button>
+      </dialog>
+    </div>
+    <label class="st-fl"><span>날짜</span><input name="날짜" required="" type="date" data-today=""></label>
+    <div class="st-fl" role="radiogroup" aria-label="실험 성공 여부" data-kind="yn">
+      <span>실험 성공 여부</span>
+      <div class="st-rg">
+        <label><input type="radio" name="실험 성공 여부" value="예" required=""><span>예</span></label>
+        <label><input type="radio" name="실험 성공 여부" value="아니오" required=""><span>아니오</span></label>
+      </div>
+    </div>
+    <label class="st-fl"><span>실험 주제</span><input name="실험 주제" required="" type="text" maxlength="100"></label>
+    <label class="st-fl"><span>기록</span><textarea name="기록" required="" placeholder="결과 분석, 실패 요인 등" maxlength="500"></textarea></label>
+    <button class="st-btn st-sub" type="submit">저장하기</button>
+    <p class="st-fmsg" aria-live="polite"></p>
+  </form>
+  
+  
+  <div class="st-dset">
+    <form class="st-sec st-dform" data-st="dform" data-tab="가계부" data-api="https://script.google.com/macros/s/AKfycbwEf1yXGXTCq4M6qXz9BWblotewuIC2koAFl9zcPCNGpwQzHCHpF60Yn0FDmqvD8PkdBQ/exec">
+      <h2 class="st-h">오늘 쓴 돈 기록</h2>
+      <div class="st-pop">
+        <div class="st-row">
+          <a class="st-btn" href="record.html">가계부</a>
+          <button class="st-btn" type="button" data-st-open="st-m5ql5">자세히 보기</button>
+        </div>
+        <dialog class="st-modal" id="st-m5ql5">
+          <h3 class="st-h">오늘 쓴 돈 기록이란?</h3>
+          <p class="st-p">물품을 구매한 날짜와 가격 등을 기록할 수 있어요.<br>옆의 가계부 버튼을 눌러 지출 내역과 통계를 확인할 수 있어요.</p>
+          <button class="st-btn" type="button" data-st-close="">닫기</button>
+        </dialog>
+      </div>
+      <label class="st-fl"><span>날짜</span><input name="날짜" required="" type="date" data-today=""></label>
+      <label class="st-fl"><span>금액</span><div class="st-uw"><input name="금액" required="" placeholder="예: 4500" type="number" inputmode="decimal" step="any" min="0"><span class="st-u">원</span></div></label>
+      <label class="st-fl"><span>품목</span><input name="품목" placeholder="예: 250mL 비커" type="text" maxlength="100"></label>
+      <button class="st-btn st-sub" type="submit">저장하기</button>
+      <p class="st-fmsg" aria-live="polite"></p>
+    </form>
+    
+    
+  </div>
+</div>
+
+<script data-studio="js">
+(function () {
+    function each(sel, fn) { Array.prototype.forEach.call(document.querySelectorAll(sel), fn); }
+    each('[data-st="tabs"]', function (t) {
+      var bs = t.querySelectorAll('.st-tab'), ps = t.querySelectorAll('.st-tab-panel');
+      function show(i) { bs.forEach(function (b, k) { b.classList.toggle('is-on', k === i); b.setAttribute('aria-selected', k === i); }); ps.forEach(function (p, k) { p.hidden = k !== i; }); }
+      bs.forEach(function (b, i) { b.addEventListener('click', function () { show(i); }); });
+      show(0);
+    });
+    each('[data-st-open]', function (b) { b.addEventListener('click', function () { var d = document.getElementById(b.getAttribute('data-st-open')); if (d && d.showModal) d.showModal(); }); });
+    each('dialog.st-modal', function (d) { d.addEventListener('click', function (e) { if (e.target === d || e.target.closest('[data-st-close]')) d.close(); }); });
+    each('[data-st="slider"]', function (s) {
+      var tr = s.querySelector('.st-slides'), dots = s.querySelector('.st-dots'), i = 0, n = tr.children.length;
+      function paint() { if (dots) Array.prototype.forEach.call(dots.children, function (d, k) { d.classList.toggle('is-on', k === i); }); }
+      function go(k) { i = (k + n) % n; tr.scrollTo({ left: tr.clientWidth * i, behavior: 'smooth' }); paint(); }
+      if (dots) { dots.innerHTML = ''; for (var k = 0; k < n; k++) (function (k) { var d = document.createElement('button'); d.type = 'button'; d.setAttribute('aria-label', (k + 1) + '번째 사진'); d.addEventListener('click', function () { go(k); }); dots.appendChild(d); })(k); }
+      var pv = s.querySelector('.st-prev'), nx = s.querySelector('.st-next');
+      if (pv) pv.addEventListener('click', function () { go(i - 1); });
+      if (nx) nx.addEventListener('click', function () { go(i + 1); });
+      tr.addEventListener('scroll', function () { var k = Math.round(tr.scrollLeft / (tr.clientWidth || 1)); if (k !== i) { i = k; paint(); } });
+      paint();
+    });
+    each('[data-st="quiz"]', function (q) {
+      var r = q.querySelector('.st-qr'), os = q.querySelectorAll('.st-opt');
+      os.forEach(function (o) { o.addEventListener('click', function () { var ok = o.hasAttribute('data-ok'); os.forEach(function (x) { x.classList.remove('is-ok', 'is-no'); }); o.classList.add(ok ? 'is-ok' : 'is-no'); if (r) r.textContent = ok ? (q.getAttribute('data-ok-msg') || '정답이에요!') : (q.getAttribute('data-no-msg') || '다시 생각해 봐요.'); }); });
+    });
+    each('[data-st="check"]', function (c, ci) {
+      var bs = c.querySelectorAll('input[type=checkbox]'), out = c.querySelector('.st-cnt'), bar = c.querySelector('.st-bar i'), key = 'st-check-' + location.pathname + '-' + ci, sv = {};
+      try { sv = JSON.parse(localStorage.getItem(key) || '{}') || {}; } catch (e) {}
+      function up() { var d = 0; bs.forEach(function (b) { if (b.checked) d++; }); if (out) out.textContent = d + ' / ' + bs.length + ' 완료'; if (bar) bar.style.width = (bs.length ? d / bs.length * 100 : 0) + '%'; }
+      bs.forEach(function (b, i) { b.checked = !!sv[i]; b.addEventListener('change', function () { sv[i] = b.checked; try { localStorage.setItem(key, JSON.stringify(sv)); } catch (e) {} up(); }); });
+      up();
+    });
+    each('[data-st="dday"]', function (e) {
+      var o = e.querySelector('.st-dnum'), t = new Date(e.getAttribute('data-date') + 'T00:00:00'), now = new Date(); now.setHours(0, 0, 0, 0);
+      var d = Math.round((t - now) / 864e5); if (o) o.textContent = isNaN(d) ? '날짜를 정해요' : d > 0 ? 'D-' + d : d === 0 ? 'D-DAY' : 'D+' + (-d);
+    });
+    each('[data-st="timer"]', function (e) {
+      var m = +e.getAttribute('data-min') || 25, left = m * 60, id = 0, o = e.querySelector('.st-tnum'), go = e.querySelector('.st-tgo'), rs = e.querySelector('.st-trs');
+      function p() { o.textContent = String(Math.floor(left / 60)).padStart(2, '0') + ':' + String(left % 60).padStart(2, '0'); }
+      function stop() { clearInterval(id); id = 0; go.textContent = '시작'; }
+      go.addEventListener('click', function () { if (id) { stop(); return; } o.classList.remove('is-done'); id = setInterval(function () { if (left > 0) { left--; p(); } if (left <= 0) { stop(); o.classList.add('is-done'); } }, 1000); go.textContent = '잠시 멈춤'; });
+      rs.addEventListener('click', function () { stop(); left = m * 60; o.classList.remove('is-done'); p(); });
+      p();
+    });
+    each('[data-st="dark"]', function (b) {
+      try { if (localStorage.getItem('st-dark') === '1') document.documentElement.classList.add('st-dark'); } catch (e) {}
+      b.addEventListener('click', function () { var on = document.documentElement.classList.toggle('st-dark'); try { localStorage.setItem('st-dark', on ? '1' : '0'); } catch (e) {} });
+    });
+
+    // ---- 데이터 블록: 입력 폼 · 목록 · 통계 (백엔드 주소와 탭 이름으로 연결) ----
+    var EDIT = document.documentElement.classList.contains('st-editing');
+    function stQs(o) { return Object.keys(o).filter(function (k) { return o[k] !== '' && o[k] != null; }).map(function (k) { return encodeURIComponent(k) + '=' + encodeURIComponent(o[k]); }).join('&'); }
+    function stJson(r) { return r.text().then(function (s) { try { return JSON.parse(s); } catch (e) { var x = new Error('BADRESP'); x.bad = 1; throw x; } }); }
+    function stChk(j) { if (!j.ok) throw new Error(j.error || '실패'); return j; }
+    function stFetch(url, opt) {
+      var ctl = typeof AbortController === 'function' ? new AbortController() : null, tm = 0; opt = opt || {};
+      if (ctl) { opt.signal = ctl.signal; tm = setTimeout(function () { ctl.abort(); }, 25000); }
+      return fetch(url, opt).then(function (r) { clearTimeout(tm); return r; }, function (e) { clearTimeout(tm); if (e && e.name === 'AbortError') throw new Error('TIMEOUT'); throw e; });
+    }
+    function stBusy(e) { return !!e && (e.bad || /lock|busy|too many|too much|rate|동시|잠시|일시|many times/i.test(String(e.message))); }
+    function stRetry(fn, n) { return fn().catch(function (e) { if (n > 0 && stBusy(e)) return new Promise(function (ok) { setTimeout(ok, 700 + Math.random() * 1800); }).then(function () { return stRetry(fn, n - 1); }); throw e; }); }
+    function stGet(base, o) { var qs = stQs(o); return stRetry(function () { return stFetch(base + (base.indexOf('?') < 0 ? '?' : '&') + (qs ? qs + '&' : '') + '_=' + Date.now()).then(stJson).then(stChk); }, 2); }
+    function stPost(base, o) { return stRetry(function () { return stFetch(base, { method: 'POST', body: JSON.stringify(o) }).then(stJson).then(stChk); }, 3); }
+    function mk(tag, cls, txt) { var e = document.createElement(tag); if (cls) e.className = cls; if (txt != null) e.textContent = txt; return e; }
+    function today() { var d = new Date(); return d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2); }
+    function errText(e) {
+      var m = String(e && e.message || e);
+      if (/Failed to fetch|NetworkError|Load failed/i.test(m)) return '서버에 연결하지 못했어요. 인터넷 연결, 백엔드 주소, 배포 설정(액세스: 모든 사용자)을 확인해요.';
+      if (m === 'TIMEOUT') return '서버 대답이 너무 늦어요. 잠시 뒤 목록을 새로고침해서 저장됐는지 확인해요.';
+      if (m === 'BADRESP') return '서버가 올바른 답을 주지 않았어요. 앱스 스크립트를 "새 버전"으로 다시 배포했는지, 액세스가 "모든 사용자"인지 확인해요.';
+      if (/lock/i.test(m)) return '지금 저장하는 사람이 많아 밀렸어요. 잠시 뒤 다시 눌러요.';
+      return m;
+    }
+    function pubOnly(c) { return c.charAt(0) !== '_'; }
+    function lab(c) { return c === 'createdAt' ? '작성 시간' : c; }
+    function starStr(v) { var n = Math.max(0, Math.min(5, Math.round(+v))); return '★★★★★'.slice(0, n) + '☆☆☆☆☆'.slice(0, 5 - n); }
+    function fire() { document.dispatchEvent(new Event('st-data')); }
+    each('[data-st="dform"]', function (f) {
+      var base = f.getAttribute('data-api'), tab = f.getAttribute('data-tab') || 'data', msg = f.querySelector('.st-fmsg'), sb = f.querySelector('.st-sub');
+      function rv(x) { var o = x.parentNode.querySelector('.st-rv'); if (o) o.textContent = x.value; }
+      function fresh() {
+        Array.prototype.forEach.call(f.querySelectorAll('input[data-today]'), function (i) { if (!i.value) i.value = today(); });
+        Array.prototype.forEach.call(f.querySelectorAll('input[type=range]'), rv);
+      }
+      Array.prototype.forEach.call(f.querySelectorAll('input[type=range]'), function (x) { x.addEventListener('input', function () { rv(x); }); });
+      fresh();
+      f.addEventListener('submit', function (e) {
+        e.preventDefault();
+        if (EDIT) { msg.textContent = '편집 화면에서는 저장되지 않아요. 위쪽 ▶ 동작 보기에서 눌러 보세요.'; return; }
+        if (!base) { msg.textContent = '백엔드 주소가 아직 없어요. 웹 스튜디오 왼쪽 "데이터 연결"에 넣어요.'; return; }
+        var data = {};
+        Array.prototype.forEach.call(f.elements, function (x) {
+          if (!x.name || (x.type === 'radio' && !x.checked)) return;
+          data[x.name] = (x.type === 'number' || x.type === 'range') && x.value !== '' ? Number(x.value) : x.value;
+        });
+        sb.disabled = true; msg.textContent = '저장하는 중…';
+        stPost(base, { action: 'add', tab: tab, data: data }).then(function (j) {
+          try { localStorage.setItem('st-tok-' + tab + '-' + j.id, j.token); } catch (x) {}
+          msg.textContent = f.getAttribute('data-ok') || '저장됐어요 ✓'; f.reset(); fresh();
+          fire();
+        }).catch(function (err) { msg.textContent = '저장하지 못했어요. ' + errText(err); }).then(function () { sb.disabled = false; });
+      });
+    });
+    each('[data-st="dlist"]', function (L) {
+      var base = L.getAttribute('data-api'), tab = L.getAttribute('data-tab') || 'data', out = L.querySelector('.st-dl-out');
+      if (!out) return;
+      var cols = (L.getAttribute('data-show') || '').split(',').map(function (s) { return s.trim(); }).filter(Boolean);
+      var stars = (L.getAttribute('data-stars') || '').split(',');
+      var view = L.getAttribute('data-view') || 'card';
+      var fcol = L.getAttribute('data-filter') || '', wantQ = L.hasAttribute('data-search'), mine = L.hasAttribute('data-mine'), lim = +L.getAttribute('data-limit') || 20;
+      var chk = L.getAttribute('data-check') || '', ON = 'O', OFF = 'X';
+      var q = '', fv = '', rows0 = [], fbox = null;
+      var note = mk('p', 'st-dmsg'); L.appendChild(note);
+      if (wantQ || fcol) {
+        var ctl = mk('div', 'st-dl-ctl'); L.insertBefore(ctl, out);
+        if (wantQ) { var sbx = mk('input', 'st-dl-q'); sbx.type = 'search'; sbx.placeholder = '검색'; sbx.setAttribute('aria-label', '목록 검색'); sbx.addEventListener('input', function () { q = sbx.value.trim().toLowerCase(); show(); }); ctl.appendChild(sbx); }
+        if (fcol) { fbox = mk('div', 'st-dl-f'); ctl.appendChild(fbox); }
+      }
+      var rf = L.querySelector('.st-dl-rf'); if (rf) rf.addEventListener('click', function () { load(); });
+      function val(r, c) { var v = r[c]; if (v == null || v === '') return ''; return stars.indexOf(c) >= 0 && !isNaN(+v) ? starStr(v) : String(v); }
+      function tokOf(r) { var tk = ''; try { tk = localStorage.getItem('st-tok-' + tab + '-' + r.id) || ''; } catch (x) {} return base && !EDIT ? tk : ''; }
+      function delBtn(r, tk) {
+        var d = mk('button', 'st-del', '삭제'); d.type = 'button'; var armed = false;
+        d.addEventListener('click', function () {
+          if (!armed) { armed = true; d.textContent = '한 번 더 누르면 삭제돼요'; setTimeout(function () { armed = false; d.textContent = '삭제'; }, 3000); return; }
+          stPost(base, { action: 'delete', tab: tab, id: r.id, token: tk }).then(function () { fire(); }).catch(function (err) { note.textContent = errText(err); });
+        });
+        return d;
+      }
+      function isOn(r) { return chk && String(r[chk]) === ON; }
+      function chkBox(r, tk, nolabel) {
+        var w = mk('label', 'st-ck'), i = mk('input'); i.type = 'checkbox'; i.checked = isOn(r); w.appendChild(i);
+        w.appendChild(document.createTextNode(nolabel ? '' : ' ' + lab(chk) + ' 완료'));
+        if (nolabel) i.setAttribute('aria-label', lab(chk) + ' 완료');
+        i.addEventListener('change', function () {
+          var on = i.checked, nv = on ? ON : OFF;
+          if (EDIT || !base || !tk) { r[chk] = nv; show(); return; }
+          var dd = {}; dd[chk] = nv; i.disabled = true;
+          stPost(base, { action: 'update', tab: tab, id: r.id, token: tk, data: dd }).then(function () { r[chk] = nv; i.disabled = false; show(); fire(); })
+            .catch(function (err) { i.checked = !on; i.disabled = false; note.textContent = errText(err); });
+        });
+        return w;
+      }
+      function chkCell(r, nolabel) { var tk = tokOf(r); if (!base || tk) return chkBox(r, tk, nolabel); return mk('span', 'st-ck', isOn(r) ? '✓ 완료' : ''); }
+      function draw(rows) {
+        out.innerHTML = ''; out.className = 'st-dl-out' + (view === 'bubble' ? ' st-dl-b' : '');
+        if (!rows.length) { out.appendChild(mk('p', 'st-dmsg', mine && !EDIT ? '이 기기에서 쓴 글이 아직 없어요.' : '보여 줄 글이 없어요. 첫 번째로 남겨 보세요!')); return; }
+        var cs = cols.length ? cols : Object.keys(rows[0]).filter(function (k) { return k !== 'id' && k !== 'createdAt'; });
+        if (chk) cs = cs.filter(function (c) { return c !== chk; });
+        if (view === 'table') {
+          var w = mk('div', 'st-dl-tw'), t = mk('table', 'st-dl-t'), hr = mk('tr');
+          var anyDel = rows.some(function (r) { return !!tokOf(r); });
+          cs.forEach(function (c) { hr.appendChild(mk('th', '', lab(c))); }); if (chk) hr.appendChild(mk('th', '', lab(chk))); if (anyDel) hr.appendChild(mk('th')); t.appendChild(hr);
+          rows.forEach(function (r) { var tr = mk('tr', isOn(r) ? 'is-done' : ''); cs.forEach(function (c) { tr.appendChild(mk('td', '', val(r, c))); }); if (chk) { var tc = mk('td'); tc.appendChild(chkCell(r, true)); tr.appendChild(tc); } if (anyDel) { var td = mk('td'), tk = tokOf(r); if (tk) td.appendChild(delBtn(r, tk)); tr.appendChild(td); } t.appendChild(tr); });
+          w.appendChild(t); out.appendChild(w); return;
+        }
+        rows.forEach(function (r) {
+          var it = mk('div', 'st-dl-i' + (isOn(r) ? ' is-done' : ''));
+          cs.forEach(function (c, i) {
+            var v = val(r, c); if (v === '') return;
+            if (c === 'createdAt') { it.appendChild(mk('p', 'st-sm', v)); return; }
+            var p = mk('p', i === 0 ? 'st-t' : '');
+            if (i > 0 && view === 'card') p.appendChild(mk('span', 'st-k', lab(c)));
+            p.appendChild(document.createTextNode(v)); it.appendChild(p);
+          });
+          if (chk) it.appendChild(chkCell(r));
+          var tk = tokOf(r); if (tk) it.appendChild(delBtn(r, tk));
+          out.appendChild(it);
+        });
+      }
+      function drawF() {
+        if (!fbox) return; fbox.innerHTML = '';
+        var vs = []; rows0.forEach(function (r) { var v = r[fcol]; if (v !== undefined && v !== '' && vs.indexOf(String(v)) < 0) vs.push(String(v)); });
+        [''].concat(vs).forEach(function (v) {
+          var b = mk('button', 'st-dl-fb' + (v === fv ? ' is-on' : ''), v === '' ? '전체' : (stars.indexOf(fcol) >= 0 ? starStr(v) : v)); b.type = 'button';
+          b.addEventListener('click', function () { fv = v; drawF(); show(); }); fbox.appendChild(b);
+        });
+      }
+      function show() {
+        var rs = rows0.filter(function (r) {
+          if (mine && !EDIT && base && !tokOf(r)) return false;
+          if (fcol && fv !== '' && String(r[fcol]) !== fv) return false;
+          if (q) { var hit = false; Object.keys(r).forEach(function (k) { if (k !== 'id' && pubOnly(k) && String(r[k]).toLowerCase().indexOf(q) >= 0) hit = true; }); if (!hit) return false; }
+          return true;
+        });
+        draw(rs.slice(0, lim));
+      }
+      function demo() {
+        var cs = cols.length ? cols : ['항목'];
+        return [1, 2, 3].map(function (n) { var r = { id: 'x' + n }; cs.forEach(function (c) { r[c] = c === 'createdAt' ? '2026-12-0' + n + ' 09:00' : stars.indexOf(c) >= 0 ? 5 - n : (c === fcol ? '예시 ' + (n % 2 + 1) : '예시 ' + n); }); return r; });
+      }
+      function load() {
+        if (EDIT || !base) { rows0 = demo(); if (chk) rows0.forEach(function (r, n) { r[chk] = n === 1 ? ON : OFF; }); drawF(); show(); if (!EDIT) note.textContent = '※ 예시 모습이에요. 백엔드 주소를 연결하면 진짜 데이터가 나와요.'; return; }
+        note.textContent = '불러오는 중…';
+        stGet(base, { action: 'list', tab: tab, sort: L.getAttribute('data-sort') || 'createdAt', desc: L.getAttribute('data-desc') ? 'true' : '', limit: (fcol || wantQ || mine) ? 300 : lim })
+          .then(function (j) { note.textContent = mine ? '이 기기에서 쓴 글만 보여요.' : ''; rows0 = j.rows; if (chk) rows0.forEach(function (r) { if (r[chk] === undefined || r[chk] === '') r[chk] = OFF; }); drawF(); show(); }).catch(function (err) { note.textContent = '불러오지 못했어요. ' + errText(err); });
+      }
+      load();
+      document.addEventListener('st-data', function () { if (!EDIT && base) load(); });
+    });
+    each('[data-st="dstat"]', function (B) {
+      var base = B.getAttribute('data-api'), tab = B.getAttribute('data-tab') || 'data', out = B.querySelector('.st-ds-out');
+      if (!out) return;
+      var ON = B.getAttribute('data-on') || 'O', topT = B.getAttribute('data-top') || '';
+      var calc = B.getAttribute('data-calc') || 'count', field = B.getAttribute('data-field') || '', group = B.getAttribute('data-group') || '', unit = B.getAttribute('data-unit') || '';
+      var note = mk('p', 'st-dmsg'); B.appendChild(note);
+      function pick(o) { var v = calc === 'count' ? o.count : o[calc]; return v === undefined ? null : v; }
+      function fmt(v) { return v === null ? '-' : Number(v).toLocaleString('ko-KR') + unit; }
+      function bars(map) {
+        var ks = Object.keys(map).sort(function (a, b) { return B.getAttribute('data-order') === 'key' ? (a < b ? -1 : a > b ? 1 : 0) : map[b] - map[a]; }), mx = Math.max.apply(null, ks.map(function (k) { return map[k]; }).concat(1));
+        var box = mk('div', 'st-ds-bars');
+        ks.forEach(function (k) { var r = mk('div', 'st-ds-row'), b = mk('span', 'st-ds-bar'), i = mk('i'); i.style.width = Math.round(map[k] / mx * 100) + '%'; b.appendChild(i); r.appendChild(mk('span', '', k)); r.appendChild(b); r.appendChild(mk('span', '', fmt(map[k]))); box.appendChild(r); });
+        return box;
+      }
+      function draw(j) {
+        out.innerHTML = '';
+        if (calc === 'ratio') {
+          var tot = j.total != null ? j.total : j.all.count, g0 = j.groups && j.groups[ON], okN = g0 ? g0.count : 0, pc = tot ? Math.round(okN / tot * 100) : 0;
+          out.appendChild(mk('p', 'st-ds-num', pc + '%'));
+          var rw = mk('div', 'st-ds-bars'), rr = mk('div', 'st-ds-row'), rb = mk('span', 'st-ds-bar'), ri = mk('i'); ri.style.width = pc + '%'; rb.appendChild(ri);
+          rr.appendChild(mk('span', '', '')); rr.appendChild(rb); rr.appendChild(mk('span', '', okN + '/' + tot)); rw.appendChild(rr); out.appendChild(rw);
+          return;
+        }
+        var v = pick(j.all);
+        out.appendChild(mk('p', 'st-ds-num', fmt(v)));
+        if (v === null && field) { note.textContent = '"' + field + '" 열에는 계산할 숫자가 없어요.'; return; }
+        var m = {};
+        if (group && j.groups) { Object.keys(j.groups).forEach(function (g) { var x = pick(j.groups[g]); m[g] = x === null ? 0 : x; }); }
+        else if (!group && field && calc === 'count' && j.all.values) { m = j.all.values; }
+        if (Object.keys(m).length) out.appendChild(bars(m));
+        if (topT && Object.keys(m).length) {
+          var tk2 = Object.keys(m).sort(function (a, b) { return m[b] - m[a]; })[0];
+          if (m[tk2] > 0) out.appendChild(mk('p', 'st-ds-top', topT + ': ' + tk2 + ' (' + fmt(m[tk2]) + ')'));
+        }
+      }
+      function demo() {
+        var g = { '예시 A': { count: 6, sum: 30000, avg: 5000 }, '예시 B': { count: 4, sum: 12000, avg: 3000 }, '예시 C': { count: 2, sum: 6000, avg: 3000 } };
+        if (calc === 'ratio') { var gg = {}; gg[ON] = { count: 7 }; return { total: 12, all: { count: 12 }, groups: gg }; }
+        return { all: { count: 12, sum: 48000, avg: 4000, min: 500, max: 15000, values: { '예시 A': 6, '예시 B': 4, '예시 C': 2 } }, groups: g };
+      }
+      function load() {
+        if (EDIT || !base) { draw(demo()); if (!EDIT) note.textContent = '※ 예시 모습이에요. 백엔드 주소를 연결하면 진짜 데이터가 나와요.'; return; }
+        stGet(base, { action: 'stats', tab: tab, field: calc === 'ratio' ? '' : field, groupBy: group }).then(function (j) { note.textContent = ''; draw(j); }).catch(function (err) { note.textContent = '불러오지 못했어요. ' + errText(err); });
+      }
+      load();
+      document.addEventListener('st-data', function () { if (!EDIT && base) load(); });
+    });
+    // 스크롤 등장 효과: 화면에 들어오면 나타남 (지원하지 않는 브라우저·움직임 줄이기 설정에서는 그냥 보임)
+    var ins = document.querySelectorAll('[data-st-in]');
+    if (ins.length && 'IntersectionObserver' in window && !(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches)) {
+      document.documentElement.classList.add('st-js');
+      var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); } }); }, { threshold: 0.08 });
+      Array.prototype.forEach.call(ins, function (e) { io.observe(e); });
+    }
+  })();
+</script>
 </body></html>
