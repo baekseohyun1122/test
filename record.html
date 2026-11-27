@@ -157,16 +157,9 @@ html.st-dark img,html.st-dark video,html.st-dark iframe,html.st-dark canvas{filt
   <h1 class="st-h">가계부</h1>
   
   <a class="st-btn" href="index.html">홈</a>
-  <a class="st-btn" href="write.html">작성</a>
+  <a class="st-btn" href="list.html">실험 목록</a>
   <div class="st-dset">
-    <form class="st-sec st-dform" data-st="dform" data-tab="가계부" data-api="https://script.google.com/macros/s/AKfycbwEf1yXGXTCq4M6qXz9BWblotewuIC2koAFl9zcPCNGpwQzHCHpF60Yn0FDmqvD8PkdBQ/exec">
-      <h2 class="st-h">오늘 쓴 돈 기록</h2>
-      <label class="st-fl"><span>날짜</span><input name="날짜" required="" type="date" data-today=""></label>
-      <label class="st-fl"><span>금액</span><div class="st-uw"><input name="금액" required="" placeholder="예: 4500" type="number" inputmode="decimal" step="any" min="0"><span class="st-u">원</span></div></label>
-      <label class="st-fl"><span>품목</span><input name="품목" placeholder="예: 250mL 비커" type="text" maxlength="100"></label>
-      <button class="st-btn st-sub" type="submit">저장하기</button>
-      <p class="st-fmsg" aria-live="polite"></p>
-    </form>
+    
     <section class="st-sec st-dlist" data-st="dlist" data-tab="가계부" data-api="https://script.google.com/macros/s/AKfycbwEf1yXGXTCq4M6qXz9BWblotewuIC2koAFl9zcPCNGpwQzHCHpF60Yn0FDmqvD8PkdBQ/exec" data-show="날짜,금액,품목" data-view="table" data-sort="날짜" data-desc="1" data-limit="20" data-filter="분류">
       <div class="st-dl-top">
         <h2 class="st-h">지출 내역</h2>
